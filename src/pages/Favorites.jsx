@@ -1,10 +1,10 @@
 import React from 'react';
 
-class Favorites extends React.Component{
+class Favorites extends React.Component {
   render() {
-    return(
+    return (
       <div data-testid="page-favorites">Favorites</div>
-    )
+    );
   }
 }
 
