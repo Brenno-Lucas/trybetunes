@@ -1,6 +1,7 @@
 import React from 'react';
 import { getUser } from '../services/userAPI';
 import Loading from './Loading';
+import Links from './Links';
 
 class Header extends React.Component {
   state = {
@@ -23,9 +24,12 @@ class Header extends React.Component {
         { nameUser === '' ? (
           <Loading />
         ) : (
-          <p data-testid="header-user-name">
-            { nameUser }
-          </p>
+          <div>
+            <p data-testid="header-user-name">
+              { nameUser }
+            </p>
+            <Links />
+          </div>
         )}
       </header>
     );
