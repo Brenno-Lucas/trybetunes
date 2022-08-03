@@ -20,7 +20,7 @@ class Album extends Component {
 Album.propTypes = {
   image: propTypes.string.isRequired,
   name: propTypes.string.isRequired,
-  albumId: propTypes.string.isRequired,
+  albumId: propTypes.number.isRequired,
   albumName: propTypes.string.isRequired,
 };
 
