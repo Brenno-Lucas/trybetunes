@@ -17,28 +17,24 @@ class Album extends React.Component {
   async componentDidMount() {
     const { match: { params: { id } } } = this.props;
     const response2 = await getFavoriteSongs();
-    //console.log(response2);
-    const response = await getMusics(id);
-    //console.log(response);
+    const [artistAlbum, ...response] = await getMusics(id);
     this.setState({
       songs: response,
-      album: response[0],
+      album: artistAlbum,
       favorites: response2,
     });
   }
 
-  favoriteSubmit = async ({ target }) => {
-    const { id } = target;
+  favoriteSubmit = async (param) => {
     const { favorites } = this.state;
     this.setState({
       loading: true,
     });
-    const response = await getMusics(id);
-    //console.log(response);
-    await addSong(response[0]);
+    console.log();
+    await addSong(param);
     this.setState({
       loading: false,
-      favorites: [...favorites, response[0]],
+      favorites: [...favorites, param],
     });
   };
 
@@ -51,14 +47,13 @@ class Album extends React.Component {
         <p data-testid="artist-name">{ album.artistName }</p>
         <p data-testid="album-name">{ album.collectionName}</p>
         {loading ? <Loading />
-          : songs.filter((song) => song.kind === 'song')
-            .map(({ trackName, trackId, previewUrl }) => (
+          : songs
+            .map((track) => (
               <MusicCard
-                key={ trackId }
-                musicName={ trackName }
-                playMusic={ previewUrl }
-                trackId={ trackId }
-                checkboxValue={ favorites.some((item) => item.trackId === trackId) }
+                musicName="gosto"
+                key={ track.trackId }
+                song={ track }
+                checkboxValue={ favorites.some((item) => item.trackId === track.trackId) }
                 onChange={ this.favoriteSubmit }
               />))}
       </div>
