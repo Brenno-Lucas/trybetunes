@@ -8,7 +8,7 @@ class Header extends React.Component {
     nameUser: '',
   }
 
-  getNameUser = async () => {
+  componentDidMount = async () => {
     const getName = await getUser();
     this.setState({
       nameUser: getName.name,
@@ -17,7 +17,6 @@ class Header extends React.Component {
   };
 
   render() {
-    this.getNameUser();
     const { nameUser } = this.state;
     return (
       <header data-testid="header-component">

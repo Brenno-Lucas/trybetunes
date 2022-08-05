@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import MusicCard from '../components/MusicCard';
 import getMusics from '../services/musicsAPI';
 import Loading from '../components/Loading';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
   state = {
@@ -16,10 +16,14 @@ class Album extends React.Component {
 
   async componentDidMount() {
     const { match: { params: { id } } } = this.props;
+    const response2 = await getFavoriteSongs();
+    //console.log(response2);
     const response = await getMusics(id);
+    //console.log(response);
     this.setState({
       songs: response,
       album: response[0],
+      favorites: response2,
     });
   }
 
@@ -30,11 +34,11 @@ class Album extends React.Component {
       loading: true,
     });
     const response = await getMusics(id);
-    console.log(response.map((a) => a.trackId)[0]);
-    await addSong(response[1]);
+    //console.log(response);
+    await addSong(response[0]);
     this.setState({
       loading: false,
-      favorites: [...favorites, response.map((music) => music.trackId)[0]],
+      favorites: [...favorites, response[0]],
     });
   };
 
@@ -54,8 +58,8 @@ class Album extends React.Component {
                 musicName={ trackName }
                 playMusic={ previewUrl }
                 trackId={ trackId }
-                checkboxValue={ favorites.some((musicId) => musicId === trackId) }
-                favoriteSubmit={ this.favoriteSubmit }
+                checkboxValue={ favorites.some((item) => item.trackId === trackId) }
+                onChange={ this.favoriteSubmit }
               />))}
       </div>
     );
